@@ -1,0 +1,111 @@
+<div class="board">
+  <ul class="board__sidebar">
+    <li>
+      <h1>Sketch App</h1>
+    </li>
+
+    <hr>
+
+    <li>
+      <h3>Shapes</h3>
+    </li>
+    <li class="board__sidebar__shape">
+      <button mat-button extended (click)="drawingAttributes.shape = 'freeForm' " [ngClass]='{active: drawingAttributes.shape === "freeForm"}'>
+        <mat-icon>gesture</mat-icon>
+        Free Form
+      </button>
+    </li>
+    <li class="board__sidebar__shape">
+      <button mat-button extended (click)="drawingAttributes.shape = 'circle' " [ngClass]='{active: drawingAttributes.shape === "circle"}'>
+        <mat-icon>radio_button_unchecked</mat-icon>
+        Circle
+      </button>
+    </li>
+    <li class="board__sidebar__shape">
+      <button mat-button extended (click)="drawingAttributes.shape = 'square' " [ngClass]='{active: drawingAttributes.shape === "square"}'>
+        <mat-icon>check_box_outline_blank</mat-icon>
+        Square
+      </button>
+    </li>
+    <li class="board__sidebar__shape">
+      <button mat-button extended (click)="drawingAttributes.shape = 'triangle' " [ngClass]='{active: drawingAttributes.shape === "triangle"}'>
+        <mat-icon>change_history</mat-icon>
+        Triangle
+      </button>
+    </li>
+    <hr>
+
+    <li>
+      <h3>Board Properties</h3>
+    </li>
+    <li>
+      <label class="board__sidebar__color">
+        Brush Color
+        <input
+          [(colorPicker)]="drawingAttributes.color"
+          [style.background]="drawingAttributes.color" />
+      </label>
+    </li>
+    <li>
+      <span>Line Cap Style</span>
+      <br>
+      <mat-radio-group
+        color="primary"
+        aria-label="Line Cap Style"
+        [(ngModel)]="drawingAttributes.lineCap"
+        [disabled]="drawingAttributes.shape != 'freeForm'"
+        >
+        <mat-radio-button value="round">Round</mat-radio-button>
+        <mat-radio-button value="butt">Butt</mat-radio-button>
+        <mat-radio-button value="square">Square</mat-radio-button>
+      </mat-radio-group>
+    </li>
+    <li>
+      <span>Line Join Style</span>
+      <br>
+      <mat-radio-group
+        color="primary"
+        aria-label="Line Join Style"
+        [(ngModel)]="drawingAttributes.lineJoin">
+        <mat-radio-button value="round">Round</mat-radio-button>
+        <mat-radio-button value="bevel">Bevel</mat-radio-button>
+        <mat-radio-button value="miter">Miter</mat-radio-button>
+      </mat-radio-group>
+    </li>
+    <li>
+      <span>Pen Stroke</span>
+      <mat-slider discrete min="1" max="100">
+        <input matSliderThumb [(ngModel)]="drawingAttributes.thickness">
+      </mat-slider>
+    </li>
+    <li>
+      <span>Fill Shape</span>
+      <mat-slide-toggle [(ngModel)]="drawingAttributes.isFillMode" [disabled]="drawingAttributes.shape == 'freeForm'" color="primary"></mat-slide-toggle>
+    </li>
+
+    <hr>
+    <li class="board__sidebar__footer">
+      <button color="warn" mat-flat-button (click)="openClearBoardConfirmation(confirmClearBoardDialog)">Clear Board</button>
+      <button color="warn" mat-stroked-button (click)="resetAttributes()">Reset Setting</button>
+    </li>
+  </ul>
+
+  <canvas
+    #drawBoard
+    class="board__canvas"
+    (mousedown)="initDrawing($event)"
+    (mousemove)="handleUserMovement($event)"
+    (mouseup)="stopDrawing($event)"
+    >
+  </canvas>
+</div>
+
+
+<ng-template #confirmClearBoardDialog>
+  <h2 matDialogTitle>Confirm Clear Board</h2>
+  <p matDialogContent>The contents and drawing will be cleared are you sure ?</p>
+  <mat-dialog-actions align="end">
+    <button mat-stroked-button matDialogClose>No</button>
+    <button mat-button matDialogClose (click)="clearBoard()" color="warn">YES</button>
+  </mat-dialog-actions>
+</ng-template>

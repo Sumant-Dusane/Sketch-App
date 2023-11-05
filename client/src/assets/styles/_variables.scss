@@ -1,0 +1,35 @@
+$font-family: Ubuntu, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+
+// Colors
+$white: #ffffff;
+$black: #000000;
+$textPrimary: #5e28a5;
+$bgBody: #f3f3f3;
+
+// Font Size
+$font-size-base: 1rem;
+$font-size-48: $font-size-base * 3;
+$font-size-32: $font-size-base * 2;
+$font-size-20: $font-size-base * 1.5;
+$font-size-14: $font-size-base * 0.875;
+$font-size-10: $font-size-base * 0.625;
+$font-size-8: $font-size-base * 0.5;
+
+// Spacers
+$spacer: 1rem;
+$spacer4x: $spacer * 4;
+$spacer3x: $spacer * 3;
+$spacer2x: $spacer * 2;
+$spacer125: $spacer * 1.25;
+$spacer1_2: $spacer * 0.5;
+$spacer1_4: $spacer * 0.25;
+
+// Border Radius
+$border-radius: 16px;
+$border-radius-sm: 8px;
+$border-radius-m: 32px;
+$border-radius-l: 110px;
+$border-radius-rounded: 50%;
+
+// Transition
+$transition-base: all 400ms ease-in-out;
