@@ -11,13 +11,11 @@ export class DrawService {
 
   drawFreeForm(shapeDrawableVariables: any, drawAttrs: DrawingAttrs, context: CanvasRenderingContext2D | null) {
     const { lineFrom, lineTo } = shapeDrawableVariables;
-    context?.lineTo( lineFrom, lineTo );
     context!.strokeStyle = drawAttrs.color;
     context!.lineCap = drawAttrs.lineCap;
     context!.lineJoin = drawAttrs.lineJoin;
+    context?.lineTo( lineFrom, lineTo );
     context?.stroke();
-
-    this.socket.bindCanvas(shapeDrawableVariables);
   }
 
   drawRectangle(shapeDrawableVariables: any, drawAttrs: any, context: CanvasRenderingContext2D | null) {

@@ -16,7 +16,7 @@ export class SocketService {
     this.socket.emit('bind-canvas', data);
   }
 
-  stopDrawing(context: CanvasRenderingContext2D) {
+  stopDrawing(context: any) {
     this.socket.emit('stop-drawing', context);
   }
 
