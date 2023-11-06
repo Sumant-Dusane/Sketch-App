@@ -1,5 +1,5 @@
 <div class="board">
-  <ul class="board__sidebar">
+  <!-- <ul class="board__sidebar">
     <li>
       <h1>Sketch App</h1>
     </li>
@@ -88,24 +88,24 @@
       <button color="warn" mat-flat-button (click)="openClearBoardConfirmation(confirmClearBoardDialog)">Clear Board</button>
       <button color="warn" mat-stroked-button (click)="resetAttributes()">Reset Setting</button>
     </li>
-  </ul>
+  </ul> -->
 
   <canvas
     #drawBoard
     class="board__canvas"
-    (mousedown)="initDrawing($event)"
-    (mousemove)="handleUserMovement($event)"
-    (mouseup)="stopDrawing(context)"
+    (mousedown)="touchStartListener($event)"
+    (mousemove)="mouseMoveListener($event)"
+    (mouseup)="touchEndListener(context)"
     >
   </canvas>
 </div>
 
 
-<ng-template #confirmClearBoardDialog>
+<!-- <ng-template #confirmClearBoardDialog>
   <h2 matDialogTitle>Confirm Clear Board</h2>
   <p matDialogContent>The contents and drawing will be cleared are you sure ?</p>
   <mat-dialog-actions align="end">
     <button mat-stroked-button matDialogClose>No</button>
     <button mat-button matDialogClose (click)="clearBoard()" color="warn">YES</button>
   </mat-dialog-actions>
-</ng-template>
+</ng-template> -->
