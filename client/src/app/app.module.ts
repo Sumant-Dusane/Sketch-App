@@ -9,19 +9,10 @@ import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MaterialUIModule } from './material-ui.module';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatSliderModule } from '@angular/material/slider';
-import { MatInputModule } from '@angular/material/input';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { ColorPickerModule } from 'ngx-color-picker';
 import { SocketService } from './services/SocketService/socket.service';
 
 const config: SocketIoConfig = {
-	url: 'http://localhost:8080',
+	url: 'https://sumant-dusane-sketch-backend.vercel.app/',
   options: { }
 }
 
@@ -36,17 +27,7 @@ const config: SocketIoConfig = {
     AppRoutingModule,
     FormsModule,
     BrowserAnimationsModule,
-
-    // MaterialUIModule
-    MatIconModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatSliderModule,
-    MatInputModule,
-    MatRadioModule,
-    MatSlideToggleModule,
-    MatTooltipModule,
-    ColorPickerModule
+    MaterialUIModule,
   ],
   providers: [SocketService],
   bootstrap: [AppComponent]
