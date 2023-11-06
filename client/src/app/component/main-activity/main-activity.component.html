@@ -6,7 +6,7 @@
 
     <hr>
 
-    <li>
+    <!-- <li>
       <h3>Shapes</h3>
     </li>
     <li class="board__sidebar__shape">
@@ -14,8 +14,8 @@
         <mat-icon>gesture</mat-icon>
         Free Form
       </button>
-    </li>
-    <li class="board__sidebar__shape">
+    </li> -->
+    <!-- <li class="board__sidebar__shape">
       <button mat-button extended (click)="drawingAttributes.shape = 'circle' " [ngClass]='{active: drawingAttributes.shape === "circle"}'>
         <mat-icon>radio_button_unchecked</mat-icon>
         Circle
@@ -32,8 +32,8 @@
         <mat-icon>change_history</mat-icon>
         Triangle
       </button>
-    </li>
-    <hr>
+    </li> -->
+    <!-- <hr> -->
 
     <li>
       <h3>Board Properties</h3>
@@ -43,7 +43,8 @@
         Brush Color
         <input
           [(colorPicker)]="drawingAttributes.color"
-          [style.background]="drawingAttributes.color" />
+          [style.background]="drawingAttributes.color"
+          />
       </label>
     </li>
     <li>
@@ -78,10 +79,10 @@
         <input matSliderThumb [(ngModel)]="drawingAttributes.thickness">
       </mat-slider>
     </li>
-    <li>
+    <!-- <li>
       <span>Fill Shape</span>
       <mat-slide-toggle [(ngModel)]="drawingAttributes.isFillMode" [disabled]="drawingAttributes.shape == 'freeForm'" color="primary"></mat-slide-toggle>
-    </li>
+    </li> -->
 
     <hr>
     <li class="board__sidebar__footer">
@@ -90,12 +91,18 @@
     </li>
   </ul>
 
+  <div class="board__header">
+    <button (click)="downloadLink()" mat-icon-button matTooltip="Download Drawing" aria-label="Download Canvas">
+      <mat-icon>file_download</mat-icon>
+    </button>
+  </div>
+
   <canvas
     #drawBoard
     class="board__canvas"
-    (mousedown)="initDrawing($event)"
-    (mousemove)="handleUserMovement($event)"
-    (mouseup)="stopDrawing($event)"
+    (mousedown)="mouseDownListener($event)"
+    (mousemove)="mouseMoveListener($event)"
+    (mouseup)="mouseUpListener(context)"
     >
   </canvas>
 </div>

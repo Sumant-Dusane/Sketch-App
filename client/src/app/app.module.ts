@@ -16,6 +16,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { SocketService } from './services/SocketService/socket.service';
 
@@ -44,6 +45,7 @@ const config: SocketIoConfig = {
     MatInputModule,
     MatRadioModule,
     MatSlideToggleModule,
+    MatTooltipModule,
     ColorPickerModule
   ],
   providers: [SocketService],
