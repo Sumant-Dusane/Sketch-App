@@ -10,10 +10,20 @@ const ioSocket = new Server(server, {
     }
 });
 
-ioSocket.on('connection', (socket) => {
-    socket.on('new-msg', (message) => {
-        console.log(message);
-        socket.emit('new-msg', message);
+ioSocket.on('connection', async (socket) => {
+    console.log('new user', socket.id);
+
+    socket.on('bind-canvas', async (data) => {
+        socket.broadcast.emit('bind-canvas', data)
+    })
+
+    socket.on('clear-canvas', () => {
+        socket.broadcast.emit('clear-canvas')
+    })
+
+    socket.on('disconnect', () => {
+        socket.broadcast.emit('user-disconnected', socket.id);
+        console.log('user disconnect', socket.id);
     })
 });
 

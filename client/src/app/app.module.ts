@@ -17,6 +17,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ColorPickerModule } from 'ngx-color-picker';
+import { SocketService } from './services/SocketService/socket.service';
 
 const config: SocketIoConfig = {
 	url: 'http://localhost:8080',
@@ -45,7 +46,7 @@ const config: SocketIoConfig = {
     MatSlideToggleModule,
     ColorPickerModule
   ],
-  providers: [],
+  providers: [SocketService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

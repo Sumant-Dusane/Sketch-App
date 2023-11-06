@@ -47,11 +47,11 @@
       </label>
     </li>
     <li>
-      <span>Line Cap Style</span>
+      <span>Cap Style</span>
       <br>
       <mat-radio-group
         color="primary"
-        aria-label="Line Cap Style"
+        aria-label="Cap Style"
         [(ngModel)]="drawingAttributes.lineCap"
         [disabled]="drawingAttributes.shape != 'freeForm'"
         >
@@ -61,11 +61,11 @@
       </mat-radio-group>
     </li>
     <li>
-      <span>Line Join Style</span>
+      <span>Join Style</span>
       <br>
       <mat-radio-group
         color="primary"
-        aria-label="Line Join Style"
+        aria-label="Join Style"
         [(ngModel)]="drawingAttributes.lineJoin">
         <mat-radio-button value="round">Round</mat-radio-button>
         <mat-radio-button value="bevel">Bevel</mat-radio-button>
