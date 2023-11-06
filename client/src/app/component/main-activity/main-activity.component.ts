@@ -35,23 +35,20 @@ export class MainActivityComponent implements AfterViewInit {
     this.canvas.nativeElement.height = (window.innerHeight - 80);   // 80% of the screen
     this.initCanvas();
 
-    this.socket.onInitBoard().subscribe((e: any) => {
-      // this.initDrawing(e);
-      this.onDown();
+    this.socket.onInitBoard().subscribe((drawingAttributes: any) => {
+      this.onDown(drawingAttributes);
     })
 
-    this.socket.onBindCanvas().subscribe((shapeDrawableVariables: any) => {
-      this.onMove(shapeDrawableVariables)
-      // this.handleIncomingSocket(shapeDrawableVariables, true);
+    this.socket.onBindCanvas().subscribe((data: any) => {
+      this.onMove(data)
     })
 
     this.socket.onStopDrawing().subscribe((data: any) => {
       this.onUp(data.x, data.y)
-      // this.stopDrawing(context, true);
     })
 
     this.socket.onClearCanvas().subscribe(() => {
-      // this.clearBoard(true)
+      this.clearBoard(true);
     })
   }
 
@@ -63,26 +60,33 @@ export class MainActivityComponent implements AfterViewInit {
   }
 
 
-  onDown() {
+  onDown(drawingAttributes: any) {
     this.context?.beginPath();
+
+    this.context!.lineWidth = drawingAttributes.thickness;
+    this.context!.fillStyle = drawingAttributes.color;
+    this.context!.strokeStyle = drawingAttributes.color;
+    this.context!.lineJoin = drawingAttributes.lineJoin;
+    this.context!.lineCap = drawingAttributes.lineCap;
   }
 
-  onMove(shapeDrawableVariables: any) {
+  onMove(data: any) {
+    const { shapeDrawableVariables, drawingAttributes } = data;
     switch (this.drawingAttributes.shape) {
       case 'freeForm':
-        this.drawingService.drawFreeForm(shapeDrawableVariables, this.drawingAttributes, this.context);
+        this.drawingService.drawFreeForm(shapeDrawableVariables, drawingAttributes, this.context);
         break;
       case 'circle':
         this.context?.putImageData(this.snapshot, 0, 0);
-        this.drawingService.drawCircle(shapeDrawableVariables, this.drawingAttributes, this.context);
+        this.drawingService.drawCircle(shapeDrawableVariables, drawingAttributes, this.context);
         break;
       case 'square':
         this.context?.putImageData(this.snapshot, 0, 0);
-        this.drawingService.drawRectangle(shapeDrawableVariables, this.drawingAttributes, this.context);
+        this.drawingService.drawRectangle(shapeDrawableVariables, drawingAttributes, this.context);
         break;
       case 'triangle':
         this.context?.putImageData(this.snapshot, 0, 0);
-        this.drawingService.drawTriangle(shapeDrawableVariables, this.drawingAttributes, this.context);
+        this.drawingService.drawTriangle(shapeDrawableVariables, drawingAttributes, this.context);
         break;
     }
   }
@@ -92,18 +96,21 @@ export class MainActivityComponent implements AfterViewInit {
   }
 
   mouseDownListener(e: any) {
-    this.socket.initBoard(e);
     this.isDrawing = true;
     this.context?.beginPath();
 
     this.initials.x = e.offsetX;
     this.initials.y = e.offsetY;
+
     this.context!.lineWidth = this.drawingAttributes.thickness;
     this.context!.fillStyle = this.drawingAttributes.color;
     this.context!.strokeStyle = this.drawingAttributes.color;
     this.context!.lineJoin = this.drawingAttributes.lineJoin;
     this.context!.lineCap = this.drawingAttributes.lineCap;
-    this.snapshot = this.context?.getImageData(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
+
+    this.socket.initBoard(this.drawingAttributes);
+
+    // this.snapshot = this.context?.getImageData(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
   }
 
   mouseMoveListener(e: any) {
@@ -115,11 +122,16 @@ export class MainActivityComponent implements AfterViewInit {
           lineFrom: e.clientX - this.canvas.nativeElement.offsetLeft,
           lineTo: e.clientY - this.canvas.nativeElement.offsetTop
         }
-        this.socket.bindCanvas(shapeDrawableVariables);
+
+        let data = {
+          shapeDrawableVariables,
+          drawingAttributes: this.drawingAttributes
+        }
+        this.socket.bindCanvas(data);
         this.drawingService.drawFreeForm(shapeDrawableVariables, this.drawingAttributes, this.context);
         break;
       case 'circle':
-        this.context?.putImageData(this.snapshot, 0, 0);
+        // this.context?.putImageData(this.snapshot, 0, 0);
         shapeDrawableVariables = {
           offsetX: e.offsetX,
           offsetY: e.offsetY,
@@ -130,7 +142,7 @@ export class MainActivityComponent implements AfterViewInit {
         this.drawingService.drawCircle(shapeDrawableVariables, this.drawingAttributes, this.context);
         break;
       case 'square':
-        this.context?.putImageData(this.snapshot, 0, 0);
+        // this.context?.putImageData(this.snapshot, 0, 0);
         shapeDrawableVariables = {
           offsetX: e.offsetX,
           offsetY: e.offsetY,
@@ -141,7 +153,7 @@ export class MainActivityComponent implements AfterViewInit {
         this.drawingService.drawRectangle(shapeDrawableVariables, this.drawingAttributes, this.context);
         break;
       case 'triangle':
-        this.context?.putImageData(this.snapshot, 0, 0);
+        // this.context?.putImageData(this.snapshot, 0, 0);
         shapeDrawableVariables = {
           offsetX: e.offsetX,
           offsetY: e.offsetY,
@@ -176,10 +188,6 @@ export class MainActivityComponent implements AfterViewInit {
     this.drawingAttributes.shape = 'freeForm',
       this.drawingAttributes.lineCap = 'round',
       this.drawingAttributes.lineJoin = 'round'
-  }
-
-  setColor(e: any) {
-    this.drawingAttributes.color = e;
   }
 
   clearBoard(isServer: boolean = false) {
