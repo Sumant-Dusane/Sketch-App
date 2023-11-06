@@ -3,9 +3,15 @@
 @import "../../../assets/styles/sudo";
 
 .board {
-  @include flex(row, center, center, $spacer);
+  @include flex(column, center, center, $spacer);
   margin-left: 16vw;
   padding: $spacer2x;
+
+  &__header {
+    @include flex(row, center, flex-end, $spacer);
+    padding: 0 $spacer;
+    width: 100%;
+  }
 
   &__canvas {
     box-shadow: 0px 4px 30px 0 lighten($color: $black, $amount: 80);

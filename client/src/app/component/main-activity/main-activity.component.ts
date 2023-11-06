@@ -13,7 +13,7 @@ export class MainActivityComponent implements AfterViewInit {
   @ViewChild('drawBoard', { static: false }) canvas!: ElementRef<HTMLCanvasElement>;
   context!: CanvasRenderingContext2D | null;
   isDrawing: boolean = false;
-  snapshot: any;
+  snapshot!: ImageData;
   drawingAttributes: DrawingAttrs = {
     thickness: 1,
     color: '#000000',
@@ -32,7 +32,7 @@ export class MainActivityComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.canvas.nativeElement.width = (window.innerWidth * 80) / 100;      // 90% of the screen
-    this.canvas.nativeElement.height = (window.innerHeight - 80);   // 80% of the screen
+    this.canvas.nativeElement.height = (window.innerHeight * 85) / 100;   // 80% of the screen
     this.initCanvas();
 
     this.socket.onInitBoard().subscribe((drawingAttributes: any) => {
@@ -56,7 +56,7 @@ export class MainActivityComponent implements AfterViewInit {
     this.context = this.canvas.nativeElement?.getContext("2d");
     this.context!.fillStyle = this.drawingAttributes.bgcolor;
     this.context?.fillRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
-    this.snapshot = this.context?.getImageData(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
+    this.snapshot = this.context!.getImageData(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
   }
 
 
@@ -188,6 +188,14 @@ export class MainActivityComponent implements AfterViewInit {
     this.drawingAttributes.shape = 'freeForm',
       this.drawingAttributes.lineCap = 'round',
       this.drawingAttributes.lineJoin = 'round'
+  }
+
+  downloadLink() {
+    const url = this.canvas.nativeElement.toDataURL('image/png');
+    const anchor = document.createElement('a');
+    anchor.href = url;
+    anchor.download = 'image.png'
+    anchor.click();
   }
 
   clearBoard(isServer: boolean = false) {
