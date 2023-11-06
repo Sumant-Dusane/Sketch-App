@@ -1,23 +1,23 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { SocketService } from '../SocketService/socket.service';
 import { DrawingAttrs } from 'src/app/Utils/Interface';
 
 @Injectable({
   providedIn: 'root'
 })
-export class DrawService {
+export class DrawService{
 
   constructor(private socket: SocketService) { }
 
   drawFreeForm(shapeDrawableVariables: any, drawAttrs: DrawingAttrs, context: CanvasRenderingContext2D | null) {
     const { lineFrom, lineTo } = shapeDrawableVariables;
     context?.lineTo( lineFrom, lineTo );
-    context!.strokeStyle = drawAttrs.color;
-    context!.lineCap = drawAttrs.lineCap;
-    context!.lineJoin = drawAttrs.lineJoin;
+    context!.strokeStyle = drawAttrs.brushColor;
+    context!.lineCap = drawAttrs.capStyle;
+    context!.lineJoin = drawAttrs.joinStyle;
     context?.stroke();
 
-    this.socket.bindCanvas(shapeDrawableVariables);
+    // this.socket.bindCanvas(shapeDrawableVariables);
   }
 
   drawRectangle(shapeDrawableVariables: any, drawAttrs: any, context: CanvasRenderingContext2D | null) {
@@ -28,7 +28,7 @@ export class DrawService {
     } else {
       context?.fillRect(offsetX, offsetY, initX - offsetX, initY - offsetY);
     }
-    this.socket.bindCanvas(shapeDrawableVariables);
+    // this.socket.bindCanvas(shapeDrawableVariables);
   }
 
   drawCircle(shapeDrawableVariables: any, drawAttrs: any, context: CanvasRenderingContext2D | null) {
@@ -39,7 +39,7 @@ export class DrawService {
     context?.arc(initX, initY, radius, 0, 2 * Math.PI);
     drawAttrs.isFillMode ? context?.fill() : context?.stroke();
 
-    this.socket.bindCanvas(shapeDrawableVariables);
+    // this.socket.bindCanvas(shapeDrawableVariables);
   }
 
   drawTriangle(shapeDrawableVariables: any, drawAttrs: any, context: CanvasRenderingContext2D | null) {
@@ -51,7 +51,7 @@ export class DrawService {
     context?.closePath();
     drawAttrs.isFillMode ? context?.fill() : context?.stroke();
 
-    this.socket.bindCanvas(shapeDrawableVariables);
+    // this.socket.bindCanvas(shapeDrawableVariables);
   }
 }
 

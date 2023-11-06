@@ -10,25 +10,25 @@
       <h3>Shapes</h3>
     </li>
     <li class="board__sidebar__shape">
-      <button mat-button extended (click)="drawingAttributes.shape = 'freeForm' " [ngClass]='{active: drawingAttributes.shape === "freeForm"}'>
+      <button mat-button extended (click)="currentShape = 'freeForm' " [ngClass]='{active: currentShape === "freeForm"}'>
         <mat-icon>gesture</mat-icon>
         Free Form
       </button>
     </li>
     <li class="board__sidebar__shape">
-      <button mat-button extended (click)="drawingAttributes.shape = 'circle' " [ngClass]='{active: drawingAttributes.shape === "circle"}'>
+      <button mat-button extended (click)="currentShape = 'circle' " [ngClass]='{active: currentShape === "circle"}'>
         <mat-icon>radio_button_unchecked</mat-icon>
         Circle
       </button>
     </li>
     <li class="board__sidebar__shape">
-      <button mat-button extended (click)="drawingAttributes.shape = 'square' " [ngClass]='{active: drawingAttributes.shape === "square"}'>
+      <button mat-button extended (click)="currentShape = 'square' " [ngClass]='{active: currentShape === "square"}'>
         <mat-icon>check_box_outline_blank</mat-icon>
         Square
       </button>
     </li>
     <li class="board__sidebar__shape">
-      <button mat-button extended (click)="drawingAttributes.shape = 'triangle' " [ngClass]='{active: drawingAttributes.shape === "triangle"}'>
+      <button mat-button extended (click)="currentShape = 'triangle' " [ngClass]='{active: currentShape === "triangle"}'>
         <mat-icon>change_history</mat-icon>
         Triangle
       </button>
@@ -42,8 +42,8 @@
       <label class="board__sidebar__color">
         Brush Color
         <input
-          [(colorPicker)]="drawingAttributes.color"
-          [style.background]="drawingAttributes.color" />
+          [(colorPicker)]="drawingAttributes.brushColor"
+          [style.background]="drawingAttributes.brushColor" />
       </label>
     </li>
     <li>
@@ -52,8 +52,8 @@
       <mat-radio-group
         color="primary"
         aria-label="Cap Style"
-        [(ngModel)]="drawingAttributes.lineCap"
-        [disabled]="drawingAttributes.shape != 'freeForm'"
+        [(ngModel)]="drawingAttributes.capStyle"
+        [disabled]="currentShape != 'freeForm'"
         >
         <mat-radio-button value="round">Round</mat-radio-button>
         <mat-radio-button value="butt">Butt</mat-radio-button>
@@ -66,7 +66,7 @@
       <mat-radio-group
         color="primary"
         aria-label="Join Style"
-        [(ngModel)]="drawingAttributes.lineJoin">
+        [(ngModel)]="drawingAttributes.joinStyle">
         <mat-radio-button value="round">Round</mat-radio-button>
         <mat-radio-button value="bevel">Bevel</mat-radio-button>
         <mat-radio-button value="miter">Miter</mat-radio-button>
@@ -80,7 +80,7 @@
     </li>
     <li>
       <span>Fill Shape</span>
-      <mat-slide-toggle [(ngModel)]="drawingAttributes.isFillMode" [disabled]="drawingAttributes.shape == 'freeForm'" color="primary"></mat-slide-toggle>
+      <mat-slide-toggle [(ngModel)]="drawingAttributes.isFillMode" [disabled]="currentShape == 'freeForm'" color="primary"></mat-slide-toggle>
     </li>
 
     <hr>

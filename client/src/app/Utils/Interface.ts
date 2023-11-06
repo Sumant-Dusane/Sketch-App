@@ -1,9 +1,8 @@
 export interface DrawingAttrs {
+  brushColor: string,
+  boardColor: string,
   thickness: number,
-  color: string,
-  bgcolor: string,
-  shape: "freeForm" | "circle" | "square" | "triangle",
-  lineCap: CanvasLineCap,
-  lineJoin: CanvasLineJoin,
+  capStyle: CanvasLineCap,
+  joinStyle: CanvasLineJoin,
   isFillMode: boolean
 }
