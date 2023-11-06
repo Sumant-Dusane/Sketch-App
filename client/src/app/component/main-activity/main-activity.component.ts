@@ -35,9 +35,16 @@ export class MainActivityComponent implements AfterViewInit {
     this.canvas.nativeElement.height = (window.innerHeight - 80);   // 80% of the screen
     this.initCanvas();
 
+    this.socket.onInitBoard().subscribe((e: any) => {
+      this.initDrawing(e);
+    })
+
     this.socket.onBindCanvas().subscribe((shapeDrawableVariables: any) => {
-      console.log(shapeDrawableVariables);
-      this.handleIncomingSocket(shapeDrawableVariables);
+      this.handleIncomingSocket(shapeDrawableVariables, true);
+    })
+
+    this.socket.onStopDrawing().subscribe((context: any) => {
+      this.stopDrawing(context, true);
     })
 
     this.socket.onClearCanvas().subscribe(() => {
@@ -49,25 +56,33 @@ export class MainActivityComponent implements AfterViewInit {
     this.context = this.canvas.nativeElement?.getContext("2d");
     this.context!.fillStyle = this.drawingAttributes.bgcolor;
     this.context?.fillRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
+    this.snapshot = this.context?.getImageData(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
   }
 
   openClearBoardConfirmation(ref: TemplateRef<any>) {
     this.dialog.open(ref);
   }
 
-  initDrawing(e: any) {
-    this.isDrawing = true;
-    this.initials.x = e.offsetX;
-    this.initials.y = e.offsetY;
-    this.context?.beginPath();
+  initDrawing(e: any, isServer: boolean = false) {
+    if(!this.isDrawing) {     // check to prevent infinite initPoints generated due to other clients init
+      this.isDrawing = true;
+      this.initials.x = e.offsetX;
+      this.initials.y = e.offsetY;
+      this.context?.beginPath();
 
-    this.context!.lineWidth = this.drawingAttributes.thickness;
-    this.context!.fillStyle = this.drawingAttributes.color;
-    this.context!.strokeStyle = this.drawingAttributes.color;
-    this.context!.lineJoin = this.drawingAttributes.lineJoin;
-    this.context!.lineCap = this.drawingAttributes.lineCap;
+      this.context!.lineWidth = this.drawingAttributes.thickness;
+      this.context!.fillStyle = this.drawingAttributes.color;
+      this.context!.strokeStyle = this.drawingAttributes.color;
+      this.context!.lineJoin = this.drawingAttributes.lineJoin;
+      this.context!.lineCap = this.drawingAttributes.lineCap;
 
-    this.snapshot = this.context?.getImageData(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
+      this.snapshot = this.context?.getImageData(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
+
+
+      if (!isServer) {
+        this.socket.initBoard(e);
+      }
+    }
   }
 
   handleUserMovement(e: any) {
@@ -113,7 +128,7 @@ export class MainActivityComponent implements AfterViewInit {
     }
   }
 
-  handleIncomingSocket(shapeDrawableVariables: any) {
+  handleIncomingSocket(shapeDrawableVariables: any, isServer: boolean = false) {
     if (!this.isDrawing) return
     this.context?.putImageData(this.snapshot, 0, 0);
     switch (this.drawingAttributes.shape) {
@@ -132,9 +147,13 @@ export class MainActivityComponent implements AfterViewInit {
     }
   }
 
-  stopDrawing(e: any) {
-    this.context?.closePath();
+  stopDrawing(context: CanvasRenderingContext2D | null, isServer: boolean = false) {
+    context?.closePath();
     this.isDrawing = false;
+    context?.closePath();
+
+
+    if(!isServer) this.socket.stopDrawing(context!);
   }
 
   resetAttributes() {

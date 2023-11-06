@@ -95,7 +95,7 @@
     class="board__canvas"
     (mousedown)="initDrawing($event)"
     (mousemove)="handleUserMovement($event)"
-    (mouseup)="stopDrawing($event)"
+    (mouseup)="stopDrawing(context)"
     >
   </canvas>
 </div>
