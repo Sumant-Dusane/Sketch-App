@@ -11,8 +11,11 @@ app.use('/', async (req, res) => {
 const server = http.createServer(app);
 const ioSocket = new Server(server, {
     cors: {
-        origin: '*'
-    }
+        origin: '*',
+        methods: ["GET", "POST"],
+        transports: ['websocket', 'polling'],
+    },
+    allowEI03: true
 });
 
 ioSocket.on('connection', async (socket) => {
