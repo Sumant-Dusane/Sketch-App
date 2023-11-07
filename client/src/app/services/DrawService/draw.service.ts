@@ -9,6 +9,7 @@ export class DrawService {
 
   constructor(private socket: SocketService) { }
 
+  // Draw pixel by pixel using lineTo it gets calledon every mousemove, mouseup and mouusedown
   drawFreeForm(shapeDrawableVariables: any, drawAttrs: DrawingAttrs, context: CanvasRenderingContext2D | null) {
     const { lineFrom, lineTo } = shapeDrawableVariables;
     context!.strokeStyle = drawAttrs.color;
@@ -26,7 +27,6 @@ export class DrawService {
     } else {
       context?.fillRect(offsetX, offsetY, initX - offsetX, initY - offsetY);
     }
-    this.socket.bindCanvas(shapeDrawableVariables);
   }
 
   drawCircle(shapeDrawableVariables: any, drawAttrs: any, context: CanvasRenderingContext2D | null) {
@@ -36,8 +36,6 @@ export class DrawService {
     let radius = Math.sqrt(Math.pow((initX - offsetX), 2) + Math.pow((initY - offsetY), 2));
     context?.arc(initX, initY, radius, 0, 2 * Math.PI);
     drawAttrs.isFillMode ? context?.fill() : context?.stroke();
-
-    this.socket.bindCanvas(shapeDrawableVariables);
   }
 
   drawTriangle(shapeDrawableVariables: any, drawAttrs: any, context: CanvasRenderingContext2D | null) {
@@ -48,8 +46,6 @@ export class DrawService {
     context?.lineTo(initX * 2 - offsetX, offsetY);
     context?.closePath();
     drawAttrs.isFillMode ? context?.fill() : context?.stroke();
-
-    this.socket.bindCanvas(shapeDrawableVariables);
   }
 }
 

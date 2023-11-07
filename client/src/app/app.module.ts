@@ -10,16 +10,25 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MaterialUIModule } from './material-ui.module';
 import { SocketService } from './services/SocketService/socket.service';
+import { SidebarComponent } from './component/sidebar/sidebar.component';
+import { HeaderComponent } from './component/header/header.component';
 
 const config: SocketIoConfig = {
 	url: 'https://sumant-dusane-sketch-backend.vercel.app/',
   options: { }
 }
 
+// const config: SocketIoConfig = {
+// 	url: 'http://localhost:8080',
+//   options: { }
+// }
+
 @NgModule({
   declarations: [
     AppComponent,
     MainActivityComponent,
+    SidebarComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
