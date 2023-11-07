@@ -13,6 +13,9 @@
     (mousedown)="mouseDownListener($event)"
     (mousemove)="mouseMoveListener($event)"
     (mouseup)="mouseUpListener(context)"
+    (touchstart)="mouseDownListener($event)"
+    (touchmove)="mouseMoveListener($event)"
+    (touchend)="mouseUpListener(context)"
     >
   </canvas>
 </div>
