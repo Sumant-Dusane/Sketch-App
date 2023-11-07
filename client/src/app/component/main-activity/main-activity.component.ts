@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { SocketService } from 'src/app/services/SocketService/socket.service';
-import { MatDialog } from "@angular/material/dialog";
 import { DrawingAttrs } from 'src/app/Utils/Interface';
 import { DrawService } from 'src/app/services/DrawService/draw.service';
 
@@ -28,7 +27,7 @@ export class MainActivityComponent implements AfterViewInit {
     y: 0,
   };
 
-  constructor(private socket: SocketService, private dialog: MatDialog, private drawingService: DrawService) { }
+  constructor(private socket: SocketService, private drawingService: DrawService) { }
 
   ngAfterViewInit(): void {
     this.canvas.nativeElement.width = (window.innerWidth * 80) / 100;      // 90% of the screen
@@ -177,18 +176,16 @@ export class MainActivityComponent implements AfterViewInit {
     this.context?.closePath();
   }
 
-  openClearBoardConfirmation(ref: TemplateRef<any>) {
-    this.dialog.open(ref);
+  updateDrawingAttributes(drawingAttributes: DrawingAttrs) {
+    this.drawingAttributes = drawingAttributes;
   }
 
-  resetAttributes() {
-    this.drawingAttributes.thickness = 1;
-    this.drawingAttributes.color = '#000000';
-    this.drawingAttributes.bgcolor = '#FFFFFF';
-    this.drawingAttributes.shape = 'freeForm',
-      this.drawingAttributes.lineCap = 'round',
-      this.drawingAttributes.lineJoin = 'round'
+  clearBoard(isServer: boolean = false) {
+    this.context?.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
+    this.initCanvas();
+    if (!isServer) this.socket.clearCanvas();
   }
+
 
   downloadLink() {
     const url = this.canvas.nativeElement.toDataURL('image/png');
@@ -196,11 +193,5 @@ export class MainActivityComponent implements AfterViewInit {
     anchor.href = url;
     anchor.download = 'image.png'
     anchor.click();
-  }
-
-  clearBoard(isServer: boolean = false) {
-    this.context?.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
-    this.initCanvas();
-    if (!isServer) this.socket.clearCanvas();
   }
 }

@@ -8,99 +8,10 @@
   padding: $spacer2x;
 
   &__header {
-    @include flex(row, center, flex-end, $spacer);
-    padding: 0 $spacer;
     width: 100%;
   }
 
   &__canvas {
     box-shadow: 0px 4px 30px 0 lighten($color: $black, $amount: 80);
-  }
-
-  &__sidebar {
-    @include element-position(fixed, 0, unset, 0, 0);
-    @include flex(column, center, flex-start, 0);
-    width: max-content;
-    max-width: 25vw;
-    padding-top: $spacer2x;
-    background-color: $white;
-    overflow: auto;
-
-    li {
-      width: 100%;
-      color: $black;
-
-      &:not(.board__sidebar__shape) {
-        margin-bottom: $spacer;
-      }
-    }
-
-    label {
-      display: block;
-      padding: $spacer;
-    }
-
-    h1, h3 {
-      margin: 0;
-      font-weight: 500;
-      padding: 0 $spacer;
-    }
-
-    span {
-      padding: 0 $spacer;
-    }
-
-    hr {
-      height: 1px;
-      width: 100%;
-      border: 0;
-      background-color: lighten($color: $black, $amount: 90);
-    }
-
-    &__color {
-      height: 100%;
-      color: $black;
-
-      input {
-        cursor: pointer;
-        color: transparent;
-        height: 20px;
-        width: 20px;
-        border: 0;
-        margin-left: $spacer;
-        border-radius: $border-radius-rounded;
-
-        &:focus, &:focus-visible, &:focus-within {
-          outline: 0;
-        }
-      }
-    }
-
-    &__shape {
-      padding: 0;
-
-      button {
-        padding: $spacer;
-        height: 100%;
-        justify-content: flex-start;
-        border-radius: 0;
-        width: 100%;
-        transition: $transition-base;
-
-        &:hover {
-          background: transparentize($color: $textPrimary, $amount: 0.95);
-        }
-
-        &.active {
-          color: $textPrimary;
-          background: transparentize($color: $textPrimary, $amount: 0.95);
-        }
-      }
-    }
-
-    &__footer {
-      @include flex(row, center, center, $spacer1_2);
-      padding: $spacer;
-    }
   }
 }

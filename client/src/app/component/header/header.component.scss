@@ -1,0 +1,8 @@
+@import "../../../assets/styles/variables";
+@import "../../../assets/styles/flex";
+
+.header {
+  @include flex(row, center, flex-end, $spacer);
+  padding: 0 $spacer;
+  width: 100%;
+}
