@@ -14,7 +14,7 @@ import { SidebarComponent } from './component/sidebar/sidebar.component';
 import { HeaderComponent } from './component/header/header.component';
 
 const config: SocketIoConfig = {
-	url: 'https://sumant-dusane-sketch-backend.vercel.app/',
+	url: 'https://sketch-backend-nsbl.onrender.com/',
   options: { }
 }
 
